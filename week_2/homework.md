@@ -17,6 +17,10 @@ The details of setting up the containers can be found in the [github repo of mag
 - Harnessing the paramerizated execution and backfill capability of Mage.
 
 
+![Pipeline](/week_2/static/mage_pipeline.png)
+
+
+
 
 ## Question 1. Data Loading
 
@@ -32,6 +36,9 @@ Once the dataset is loaded, what's the shape of the data?
 266,855 rows x 20 columns
 ```
 
+![Data Loading](/week_2/static/mage_data_loader.png)
+
+
 
 ## Question 2. Data Transformation
 
@@ -46,6 +53,10 @@ Upon filtering the dataset where the passenger count is equal to 0 _or_ the trip
 ```
 139,370 rows
 ```
+
+
+![Transformer](/week_2/static/mage_transformer.png)
+
 
 ## Question 3. Data Transformation
 

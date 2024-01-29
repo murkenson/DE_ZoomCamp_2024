@@ -4,11 +4,11 @@ Data Engineering Zoomcamp
 
 
 
-**Module 1: Introduction & Prerequisites**
+**Module 1: Introduction & Prerequisites 🚀😤**
 
 * [Homework](week_1/homework.md)
 
 
-**Workshop 1: Data Ingestion**
+**Module 2: Workflow Orchestration 🚀😤**
 
 * [Homework](week_2/homework.md)
