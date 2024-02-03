@@ -46,9 +46,10 @@ How many taxi trips were totally made on September 18th 2019?
 >Command:
 
 ```sql
-SELECT COUNT(*) as total_trips
-FROM public.green_tripdata
-WHERE lpep_pickup_datetime::date = '2019-09-18';
+SELECT count(*)
+FROM green_tripdata
+WHERE lpep_pickup_datetime >= '2019-09-18 00:00:00'
+	AND lpep_dropoff_datetime <= '2019-09-18 23:59:59';
 ```
 
 >Output:
@@ -56,12 +57,12 @@ WHERE lpep_pickup_datetime::date = '2019-09-18';
 
 count|
 -----+
-15767|
+15612|
 ```
 
 >Answer:
 ```
-15767
+15612
 ```
 
 ## Question 4. Average

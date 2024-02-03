@@ -12,3 +12,8 @@ Data Engineering Zoomcamp
 **Module 2: Workflow Orchestration 🚀😤**
 
 * [Homework](week_2/homework.md)
+
+
+**Module 3: Data Warehouse 🚀😤**
+
+* [Homework](week_3/homework.md)
