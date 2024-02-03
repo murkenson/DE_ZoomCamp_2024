@@ -17,3 +17,7 @@ Data Engineering Zoomcamp
 **Module 3: Data Warehouse 🚀😤**
 
 * [Homework](week_3/homework.md)
+
+**Module 4: Analytics Engineering 🚀😤**
+
+* [Homework](week_4/homework.md)
