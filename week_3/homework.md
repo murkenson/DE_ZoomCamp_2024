@@ -12,30 +12,33 @@ Create a table in BQ using the Green Taxi Trip Records for 2022 (do not partitio
 </p>
 
 
-In this case, I am using `Mage AI` to load Green NY Taxi data into Google Cloud Storage (GCS).
+In this case, I am using `Mage AI` to load [Green Taxi Trip Records 2022](https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page) into Google Cloud Storage (GCS).
+
+![bigquery_1](/week_3/static/mage_pipeline.png)
+
+
 
 ![bigquery_1](/week_3/static/bigquery_1.png)
 
 >Command:
 ```sql
+--Creating external table refering to gcs path
 CREATE OR REPLACE EXTERNAL TABLE
   ny-rides-marfanyan.ny_taxi.external_green_data_2022_tripdata OPTIONS ( format = 'parquet',
     uris = ['gs://mage-data-zoom-camp-marfanyan/ny-green_taxi_data/year_month=2022-*']);
 
-
-
+--Creating a non partitinoned table from external table
 CREATE TABLE
   ny_taxi.green_data_taxi_2022 AS
 SELECT
   *
 FROM
-  ny-rides-marfanyan.ny_taxi.external_green_data_2022_tripdata;
+  ny-rides-marfanyan.ny_taxi.external_green_data_2022_tripdata; -- external table
 ```
 
 ## Question 1.
 
 Question 1: What is count of records for the **2022 Green Taxi Data**??
-
 
 - 65,623,481
 - 840,402
@@ -47,7 +50,6 @@ Question 1: What is count of records for the **2022 Green Taxi Data**??
 840,402
 ```
 
-
 >Command:
 ```sql
 SELECT
@@ -57,7 +59,6 @@ FROM
 ```
 
 ![bigquery_1](/week_3/static/bigquery_2.png)
-
 
 
 ## Question 2.
@@ -75,15 +76,12 @@ What is the estimated amount of data that will be read when this query is execut
 - 0 MB for the External Table and 6.41MB for the Materialized Table
 ```
 
-
 >Command:
 ```sql
 SELECT
   COUNT(DISTINCT PULocationID)
 FROM
   ny-rides-marfanyan.ny_taxi.external_green_data_2022_tripdata;
-
-
 
 SELECT
   COUNT(DISTINCT PULocationID)
@@ -120,7 +118,6 @@ WHERE
 ```
 
 ![bigquery_1](/week_3/static/bigquery_8.png)
-
 
 
 ## Question 4. 
@@ -188,19 +185,20 @@ Use the materialized table you created earlier in your from clause and note the 
 ```
 
 >Command:
-
 ```sql
 SELECT
   COUNT(DISTINCT PULocationID)
 FROM
-  ny-rides-marfanyan.ny_taxi.green_data_taxi_2022
+  ny-rides-marfanyan.ny_taxi.green_data_taxi_2022 --non-partitioned 
 WHERE
   DATE(TIMESTAMP_SECONDS(CAST(lpep_pickup_datetime / 1000000000 AS INT64))) BETWEEN DATE('2022-06-01')
   AND DATE('2022-06-30');
+
+
 SELECT
   COUNT(DISTINCT PULocationID)
 FROM
-  ny-rides-marfanyan.ny_taxi.green_data_taxi_2022_partition
+  ny-rides-marfanyan.ny_taxi.green_data_taxi_2022_partition --partitioned 
 WHERE
   lpep_pickup_datetime BETWEEN DATE('2022-06-01')
   AND DATE('2022-06-30');
@@ -229,12 +227,10 @@ GCP Bucket
 
 ## Question 7.
 
-
 It is best practice in Big Query to always cluster your data:
 
 - True
 - False
-
 
 >Answer:
 ```
@@ -256,6 +252,19 @@ No Points: Write a SELECT count(*) query FROM the materialized table you created
 
 ![bigquery_1](/week_3/static/bigquery_9.png)
 
+>Command:
+```sql
+SELECT
+  *
+FROM
+  `ny-rides-marfanyan.ny_taxi.green_data_taxi_2022`  
+
+
+SELECT
+  *
+FROM
+  `ny-rides-marfanyan.ny_taxi.external_green_data_2022_tripdata`;
+```
 
 ## Submitting the solutions
 
