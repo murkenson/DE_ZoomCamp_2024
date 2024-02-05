@@ -1,6 +1,6 @@
 # DE_ZoomCamp_2024
 
-Data Engineering Zoomcamp
+Welcome to the Data Engineering Zoomcamp 2024 repository! Here, you can find the completed homework assignments for each module.
 
 
 
@@ -21,3 +21,9 @@ Data Engineering Zoomcamp
 **Module 4: Analytics Engineering 🚀😤**
 
 * [Homework](week_4/homework.md)
+
+
+### Course UI
+Alternatively, you can access this course using the provided UI app, the app provides a user-friendly interface for navigating through the course material.
+
+Visit the following link: [DE Zoomcamp UI](https://dezoomcamp.streamlit.app/)

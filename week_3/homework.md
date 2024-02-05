@@ -15,9 +15,6 @@ Create a table in BQ using the Green Taxi Trip Records for 2022 (do not partitio
 In this case, I am using `Mage AI` to load [Green Taxi Trip Records 2022](https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page) into Google Cloud Storage (GCS).
 
 ![bigquery_1](/week_3/static/mage_pipeline.png)
-
-
-
 ![bigquery_1](/week_3/static/bigquery_1.png)
 
 >Command:
@@ -35,6 +32,10 @@ SELECT
 FROM
   ny-rides-marfanyan.ny_taxi.external_green_data_2022_tripdata; -- external table
 ```
+
+
+For more details and additional functions, refer to the [BigQuery Standard SQL Dates and Times](https://count.co/sql-resources/bigquery-standard-sql/dates-and-times#the-basics) documentation.
+
 
 ## Question 1.
 
