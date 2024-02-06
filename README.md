@@ -4,21 +4,24 @@ Welcome to the Data Engineering Zoomcamp 2024 repository! Here, you can find the
 
 
 
-**Module 1: Introduction & Prerequisites 🚀😤**
+**Module 1: Introduction & Prerequisites 🚀**
 
 * [Homework](week_1/homework.md)
 
-
-**Module 2: Workflow Orchestration 🚀😤**
+**Module 2: Workflow Orchestration 🚀**
 
 * [Homework](week_2/homework.md)
 
-
-**Module 3: Data Warehouse 🚀😤**
+**Module 3: Data Warehouse 🚀**
 
 * [Homework](week_3/homework.md)
 
-**Module 4: Analytics Engineering 🚀😤**
+**Workshop 1: Data Ingestion 🚀**
+
+* [Homework](/workshops/homework_dlt.md)
+
+
+**Module 4: Analytics Engineering 🚀**
 
 * [Homework](week_4/homework.md)
 
