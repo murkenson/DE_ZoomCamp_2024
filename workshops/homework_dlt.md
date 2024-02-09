@@ -49,7 +49,7 @@ The [linked colab notebook](/workshop/homework_workshop_dlt.ipynb) offers a few 
 
 >Answer:
 ```
-213
+266
 ```
 
 Submit the solution here: https://courses.datatalks.club/de-zoomcamp-2024/homework/workshop1
