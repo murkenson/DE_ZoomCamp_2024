@@ -26,6 +26,11 @@ Welcome to the Data Engineering Zoomcamp 2024 repository! Here, you can find the
 * [Homework](week_4/homework.md)
 
 
+**Module 5: Batch Processing 🚀**
+
+* [Homework](week_5/homework.md)
+
+
 ### Course UI
 Alternatively, you can access this course using the provided UI app, the app provides a user-friendly interface for navigating through the course material.
 
