@@ -44,12 +44,39 @@ def web_to_gcs(year, service):
 
         # download it using requests via a pandas df
         request_url = f"{init_url}{service}/{file_name}"
+
+              # map data types 
+        taxi_dtypes = {
+                        'VendorID': pd.Int64Dtype(),
+                        'passenger_count': pd.Int64Dtype(),
+                        'trip_distance': float,
+                        'RatecodeID':pd.Int64Dtype(),
+                        'store_and_fwd_flag':str,
+                        'PULocationID':pd.Int64Dtype(),
+                        'DOLocationID':pd.Int64Dtype(),
+                        'payment_type': pd.Int64Dtype(),
+                        'fare_amount': float,
+                        'extra':float,
+                        'mta_tax':float,
+                        'tip_amount':float,
+                        'tolls_amount':float,
+                        'improvement_surcharge':float,
+                        'total_amount':float,
+                        'congestion_surcharge':float
+                    }
+        
+        # # parse the date column
+        if service == 'yellow':
+            parse_dates = ['tpep_pickup_datetime','tpep_dropoff_datetime']
+        else:
+            parse_dates = ['lpep_pickup_datetime','lpep_dropoff_datetime']
+
         r = requests.get(request_url)
         open(file_name, 'wb').write(r.content)
         print(f"Local: {file_name}")
 
         # read it back into a parquet file
-        df = pd.read_csv(file_name, compression='gzip')
+        df = pd.read_csv(file_name, compression='gzip', dtype=taxi_dtypes)
         file_name = file_name.replace('.csv.gz', '.parquet')
         df.to_parquet(file_name, engine='pyarrow')
         print(f"Parquet: {file_name}")
@@ -63,5 +90,5 @@ def web_to_gcs(year, service):
 #web_to_gcs('2020', 'green')
 #web_to_gcs('2019', 'yellow')
 #web_to_gcs('2020', 'yellow')
-web_to_gcs('2019', 'fhv')
+#web_to_gcs('2019', 'fhv')
 
