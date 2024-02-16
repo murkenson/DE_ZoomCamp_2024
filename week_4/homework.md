@@ -44,6 +44,7 @@ It applies a _limit 100_ to all of our models
 
 >Answer:
 ```
+The code from a development branch requesting a merge to main
 ```
 
 ### Question 3: 
@@ -63,7 +64,11 @@ Run the dbt model without limits (is_test_run: false).
 
 >Answer:
 ```
+22998722
 ```
+
+![dbt_count](/week_4/static/dbt_fhv_model_count.png)
+
 
 ### Question 4: 
 
