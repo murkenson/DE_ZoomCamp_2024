@@ -83,7 +83,10 @@ Create a dashboard with some tiles that you find interesting to explore the data
 
 >Answer:
 ```
+Yellow
 ```
+
+![fact_trips_all](/week_4/static/fact_trips_all.png)
 
 
 ## Submitting the solutions
