@@ -1,0 +1,1 @@
+You can explore the full project [here](https://github.com/murkenson/dbt_DE_Zoomcamp) 👀.

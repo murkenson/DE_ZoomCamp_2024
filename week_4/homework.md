@@ -91,7 +91,7 @@ Yellow
 
 ## Submitting the solutions
 
-* Form for submitting: [TO DO]
+* Form for submitting: https://courses.datatalks.club/de-zoomcamp-2024/homework/hw4
 * You can submit your homework multiple times. In this case, only the last submission will be used. 
 
 Deadline: 22 February (Thursday), 22:00 CET

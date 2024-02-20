@@ -269,7 +269,7 @@ FROM
 
 ## Submitting the solutions
 
-* Form for submitting: TBD
+* Form for submitting: https://courses.datatalks.club/de-zoomcamp-2024/homework/hw3
 * You can submit your homework multiple times. In this case, only the last submission will be used. 
 
 Deadline: TBD
