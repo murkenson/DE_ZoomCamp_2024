@@ -34,6 +34,7 @@ What is the average size of the Parquet (ending with .parquet extension) Files t
 
 >Answer:
 ```
+6MB
 ```
 
 
@@ -51,6 +52,7 @@ Consider only trips that started on the 15th of October.</br>
 
 >Answer:
 ```
+62610
 ```
 
 ### Question 4: 
@@ -66,6 +68,7 @@ What is the length of the longest trip in the dataset in hours?</br>
 
 >Answer:
 ```
+631,152.50 Hours
 ```
 
 ### Question 5: 

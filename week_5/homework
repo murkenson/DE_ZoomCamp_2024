@@ -1,0 +1,759 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "1108e7c0",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import pyspark"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "id": "999134ce",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "'3.5.0'"
+      ]
+     },
+     "execution_count": 2,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "pyspark.__version__"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "id": "af7ca279",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from pyspark.sql import SparkSession\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "id": "8631cacf",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "Setting default log level to \"WARN\".\n",
+      "To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).\n",
+      "24/02/21 06:29:00 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable\n"
+     ]
+    }
+   ],
+   "source": [
+    "spark = SparkSession.builder \\\n",
+    "    .master(\"local[*]\") \\\n",
+    "    .appName('test') \\\n",
+    "    .getOrCreate()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "id": "eca8bbeb",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "--2024-02-21 06:29:03--  https://github.com/DataTalksClub/nyc-tlc-data/releases/download/fhv/fhv_tripdata_2019-10.csv.gz\n",
+      "Resolving github.com (github.com)... 140.82.121.4\n",
+      "Connecting to github.com (github.com)|140.82.121.4|:443... connected.\n",
+      "HTTP request sent, awaiting response... 302 Found\n",
+      "Location: https://objects.githubusercontent.com/github-production-release-asset-2e65be/513814948/efdfcf82-6d5c-44d1-a138-4e8ea3c3a3b6?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20240221%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240221T062728Z&X-Amz-Expires=300&X-Amz-Signature=beda8d8d607c6677b95d44677f931c954b956e5d5850cae9c9952f56ecc71051&X-Amz-SignedHeaders=host&actor_id=0&key_id=0&repo_id=513814948&response-content-disposition=attachment%3B%20filename%3Dfhv_tripdata_2019-10.csv.gz&response-content-type=application%2Foctet-stream [following]\n",
+      "--2024-02-21 06:29:03--  https://objects.githubusercontent.com/github-production-release-asset-2e65be/513814948/efdfcf82-6d5c-44d1-a138-4e8ea3c3a3b6?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20240221%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240221T062728Z&X-Amz-Expires=300&X-Amz-Signature=beda8d8d607c6677b95d44677f931c954b956e5d5850cae9c9952f56ecc71051&X-Amz-SignedHeaders=host&actor_id=0&key_id=0&repo_id=513814948&response-content-disposition=attachment%3B%20filename%3Dfhv_tripdata_2019-10.csv.gz&response-content-type=application%2Foctet-stream\n",
+      "Resolving objects.githubusercontent.com (objects.githubusercontent.com)... 185.199.111.133, 185.199.110.133, 185.199.109.133, ...\n",
+      "Connecting to objects.githubusercontent.com (objects.githubusercontent.com)|185.199.111.133|:443... connected.\n",
+      "HTTP request sent, awaiting response... 200 OK\n",
+      "Length: 19375751 (18M) [application/octet-stream]\n",
+      "Saving to: ‘fhv_tripdata_2019-10.csv.gz’\n",
+      "\n",
+      "fhv_tripdata_2019-1 100%[===================>]  18.48M  --.-KB/s    in 0.1s    \n",
+      "\n",
+      "2024-02-21 06:29:03 (154 MB/s) - ‘fhv_tripdata_2019-10.csv.gz’ saved [19375751/19375751]\n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "!wget https://github.com/DataTalksClub/nyc-tlc-data/releases/download/fhv/fhv_tripdata_2019-10.csv.gz"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "id": "19ccebea",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "!gzip -d fhv_tripdata_2019-10.csv.gz"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "id": "b826ed32",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "total 115M\r\n",
+      "-rw-rw-r-- 1 marfanyan marfanyan  67K Feb 21 06:28 homework.ipynb\r\n",
+      "-rw-rw-r-- 1 marfanyan marfanyan 2.6K Feb 20 14:46 PySpark_to_big_query.py\r\n",
+      "drwxrwxr-x 6 marfanyan marfanyan 4.0K Feb 20 06:48 data\r\n",
+      "-rw-rw-r-- 1 marfanyan marfanyan 2.5K Feb 20 06:46 PySpark_70.py\r\n",
+      "-rw-rw-r-- 1 marfanyan marfanyan 9.6K Feb 20 06:21 PySpark_70.ipynb\r\n",
+      "-rw-rw-r-- 1 marfanyan marfanyan  12K Feb 19 14:40 PySpark_60.ipynb\r\n",
+      "drwxrwxr-x 2 marfanyan marfanyan 4.0K Feb 19 14:33 lib\r\n",
+      "-rw-rw-r-- 1 marfanyan marfanyan  34K Feb 19 06:18 PySpark_50.ipynb\r\n",
+      "drwxr-xr-x 3 marfanyan marfanyan 4.0K Feb 19 06:16 tmp\r\n",
+      "drwxr-xr-x 2 marfanyan marfanyan 4.0K Feb 18 14:10 spark-warehouse\r\n",
+      "-rw-rw-r-- 1 marfanyan marfanyan  38K Feb 17 09:03 PySpark_40.ipynb\r\n",
+      "-rw-rw-r-- 1 marfanyan marfanyan  48K Feb 17 08:47 PySpark_30.ipynb\r\n",
+      "-rwxrwxr-x 1 marfanyan marfanyan  544 Feb 17 06:15 download_data.sh\r\n",
+      "-rw-rw-r-- 1 marfanyan marfanyan  70K Feb 16 13:15 PySpark_20.ipynb\r\n",
+      "drwxr-xr-x 3 marfanyan marfanyan 4.0K Feb 16 08:45 yellow\r\n",
+      "-rw-rw-r-- 1 marfanyan marfanyan 9.6K Feb 14 11:52 PySpark_10.ipynb\r\n",
+      "drwxr-xr-x 2 marfanyan marfanyan 4.0K Feb 14 11:50 zones\r\n",
+      "-rw-rw-r-- 1 marfanyan marfanyan 115M Dec  2  2022 fhv_tripdata_2019-10.csv\r\n"
+     ]
+    }
+   ],
+   "source": [
+    "!ls -lth"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "id": "e262a995",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "1897494 fhv_tripdata_2019-10.csv\r\n"
+     ]
+    }
+   ],
+   "source": [
+    "!wc -l fhv_tripdata_2019-10.csv"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "id": "5a74e65b",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "                                                                                \r"
+     ]
+    }
+   ],
+   "source": [
+    "df= spark.read \\\n",
+    "    .option(\"header\", \"true\") \\\n",
+    "    .csv('fhv_tripdata_2019-10.csv')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "id": "91cb9ffb",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "+--------------------+-------------------+-------------------+------------+------------+-------+----------------------+\n",
+      "|dispatching_base_num|    pickup_datetime|   dropOff_datetime|PUlocationID|DOlocationID|SR_Flag|Affiliated_base_number|\n",
+      "+--------------------+-------------------+-------------------+------------+------------+-------+----------------------+\n",
+      "|              B00009|2019-10-01 00:23:00|2019-10-01 00:35:00|         264|         264|   NULL|                B00009|\n",
+      "|              B00013|2019-10-01 00:11:29|2019-10-01 00:13:22|         264|         264|   NULL|                B00013|\n",
+      "|              B00014|2019-10-01 00:11:43|2019-10-01 00:37:20|         264|         264|   NULL|                B00014|\n",
+      "|              B00014|2019-10-01 00:56:29|2019-10-01 00:57:47|         264|         264|   NULL|                B00014|\n",
+      "|              B00014|2019-10-01 00:23:09|2019-10-01 00:28:27|         264|         264|   NULL|                B00014|\n",
+      "|     B00021         |2019-10-01 00:00:48|2019-10-01 00:07:12|         129|         129|   NULL|       B00021         |\n",
+      "|     B00021         |2019-10-01 00:47:23|2019-10-01 00:53:25|          57|          57|   NULL|       B00021         |\n",
+      "|     B00021         |2019-10-01 00:10:06|2019-10-01 00:19:50|         173|         173|   NULL|       B00021         |\n",
+      "|     B00021         |2019-10-01 00:51:37|2019-10-01 01:06:14|         226|         226|   NULL|       B00021         |\n",
+      "|     B00021         |2019-10-01 00:28:23|2019-10-01 00:34:33|          56|          56|   NULL|       B00021         |\n",
+      "|     B00021         |2019-10-01 00:31:17|2019-10-01 00:51:52|          82|          82|   NULL|       B00021         |\n",
+      "|              B00037|2019-10-01 00:07:41|2019-10-01 00:15:23|         264|          71|   NULL|                B00037|\n",
+      "|              B00037|2019-10-01 00:13:38|2019-10-01 00:25:51|         264|          39|   NULL|                B00037|\n",
+      "|              B00037|2019-10-01 00:42:40|2019-10-01 00:53:47|         264|         188|   NULL|                B00037|\n",
+      "|              B00037|2019-10-01 00:58:46|2019-10-01 01:10:11|         264|          91|   NULL|                B00037|\n",
+      "|              B00037|2019-10-01 00:09:49|2019-10-01 00:14:37|         264|          71|   NULL|                B00037|\n",
+      "|              B00037|2019-10-01 00:22:35|2019-10-01 00:36:53|         264|          35|   NULL|                B00037|\n",
+      "|              B00037|2019-10-01 00:54:27|2019-10-01 01:03:37|         264|          61|   NULL|                B00037|\n",
+      "|              B00037|2019-10-01 00:08:12|2019-10-01 00:28:47|         264|         198|   NULL|                B00037|\n",
+      "|              B00053|2019-10-01 00:05:24|2019-10-01 00:53:03|         264|         264|   NULL|                  #N/A|\n",
+      "+--------------------+-------------------+-------------------+------------+------------+-------+----------------------+\n",
+      "only showing top 20 rows\n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "df.show()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "id": "8d7c6634",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "[Row(dispatching_base_num='B00009', pickup_datetime='2019-10-01 00:23:00', dropOff_datetime='2019-10-01 00:35:00', PUlocationID='264', DOlocationID='264', SR_Flag=None, Affiliated_base_number='B00009'),\n",
+       " Row(dispatching_base_num='B00013', pickup_datetime='2019-10-01 00:11:29', dropOff_datetime='2019-10-01 00:13:22', PUlocationID='264', DOlocationID='264', SR_Flag=None, Affiliated_base_number='B00013'),\n",
+       " Row(dispatching_base_num='B00014', pickup_datetime='2019-10-01 00:11:43', dropOff_datetime='2019-10-01 00:37:20', PUlocationID='264', DOlocationID='264', SR_Flag=None, Affiliated_base_number='B00014'),\n",
+       " Row(dispatching_base_num='B00014', pickup_datetime='2019-10-01 00:56:29', dropOff_datetime='2019-10-01 00:57:47', PUlocationID='264', DOlocationID='264', SR_Flag=None, Affiliated_base_number='B00014'),\n",
+       " Row(dispatching_base_num='B00014', pickup_datetime='2019-10-01 00:23:09', dropOff_datetime='2019-10-01 00:28:27', PUlocationID='264', DOlocationID='264', SR_Flag=None, Affiliated_base_number='B00014')]"
+      ]
+     },
+     "execution_count": 11,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.head(5)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "id": "bdcda3d1",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "StructType([StructField('dispatching_base_num', StringType(), True), StructField('pickup_datetime', StringType(), True), StructField('dropOff_datetime', StringType(), True), StructField('PUlocationID', StringType(), True), StructField('DOlocationID', StringType(), True), StructField('SR_Flag', StringType(), True), StructField('Affiliated_base_number', StringType(), True)])"
+      ]
+     },
+     "execution_count": 12,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.schema"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "id": "171127b6",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "!head -n 101 fhv_tripdata_2019-10.csv > head_of_hvf.csv"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 14,
+   "id": "31668143",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "total 115M\r\n",
+      "-rw-rw-r-- 1 marfanyan marfanyan 6.4K Feb 21 06:30 head_of_hvf.csv\r\n",
+      "-rw-rw-r-- 1 marfanyan marfanyan  66K Feb 21 06:30 homework.ipynb\r\n",
+      "-rw-rw-r-- 1 marfanyan marfanyan 2.6K Feb 20 14:46 PySpark_to_big_query.py\r\n",
+      "drwxrwxr-x 6 marfanyan marfanyan 4.0K Feb 20 06:48 data\r\n",
+      "-rw-rw-r-- 1 marfanyan marfanyan 2.5K Feb 20 06:46 PySpark_70.py\r\n",
+      "-rw-rw-r-- 1 marfanyan marfanyan 9.6K Feb 20 06:21 PySpark_70.ipynb\r\n",
+      "-rw-rw-r-- 1 marfanyan marfanyan  12K Feb 19 14:40 PySpark_60.ipynb\r\n",
+      "drwxrwxr-x 2 marfanyan marfanyan 4.0K Feb 19 14:33 lib\r\n",
+      "-rw-rw-r-- 1 marfanyan marfanyan  34K Feb 19 06:18 PySpark_50.ipynb\r\n",
+      "drwxr-xr-x 3 marfanyan marfanyan 4.0K Feb 19 06:16 tmp\r\n",
+      "drwxr-xr-x 2 marfanyan marfanyan 4.0K Feb 18 14:10 spark-warehouse\r\n",
+      "-rw-rw-r-- 1 marfanyan marfanyan  38K Feb 17 09:03 PySpark_40.ipynb\r\n",
+      "-rw-rw-r-- 1 marfanyan marfanyan  48K Feb 17 08:47 PySpark_30.ipynb\r\n",
+      "-rwxrwxr-x 1 marfanyan marfanyan  544 Feb 17 06:15 download_data.sh\r\n",
+      "-rw-rw-r-- 1 marfanyan marfanyan  70K Feb 16 13:15 PySpark_20.ipynb\r\n",
+      "drwxr-xr-x 3 marfanyan marfanyan 4.0K Feb 16 08:45 yellow\r\n",
+      "-rw-rw-r-- 1 marfanyan marfanyan 9.6K Feb 14 11:52 PySpark_10.ipynb\r\n",
+      "drwxr-xr-x 2 marfanyan marfanyan 4.0K Feb 14 11:50 zones\r\n",
+      "-rw-rw-r-- 1 marfanyan marfanyan 115M Dec  2  2022 fhv_tripdata_2019-10.csv\r\n"
+     ]
+    }
+   ],
+   "source": [
+    "!ls -lth"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 15,
+   "id": "1d23ef52",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "wc: head.csv: No such file or directory\r\n"
+     ]
+    }
+   ],
+   "source": [
+    "!wc -l head.csv"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 16,
+   "id": "3df179b4",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import pandas as pd"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 17,
+   "id": "df08eed4",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "df_pandas = pd.read_csv('head_of_hvf.csv')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 18,
+   "id": "5d980c2b",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "dispatching_base_num       object\n",
+       "pickup_datetime            object\n",
+       "dropOff_datetime           object\n",
+       "PUlocationID                int64\n",
+       "DOlocationID                int64\n",
+       "SR_Flag                   float64\n",
+       "Affiliated_base_number     object\n",
+       "dtype: object"
+      ]
+     },
+     "execution_count": 18,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df_pandas.dtypes"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 19,
+   "id": "7fe43ec5",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "StructType([StructField('dispatching_base_num', StringType(), True), StructField('pickup_datetime', StringType(), True), StructField('dropOff_datetime', StringType(), True), StructField('PUlocationID', LongType(), True), StructField('DOlocationID', LongType(), True), StructField('SR_Flag', DoubleType(), True), StructField('Affiliated_base_number', StringType(), True)])"
+      ]
+     },
+     "execution_count": 19,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "spark.createDataFrame(df_pandas).schema"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 127,
+   "id": "5937183e",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from pyspark.sql import types\n",
+    "from pyspark.sql.functions import date_format, col, to_date, expr\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 21,
+   "id": "63c7cbc5",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "schema = types.StructType([\n",
+    "    types.StructField('dispatching_base_num', types.StringType(), True), \n",
+    "    types.StructField('pickup_datetime', types.TimestampType(), True), \n",
+    "    types.StructField('dropOff_datetime', types.TimestampType(), True), \n",
+    "    types.StructField('PUlocationID', types.IntegerType(), True), \n",
+    "    types.StructField('DOlocationID', types.IntegerType(), True), \n",
+    "    types.StructField('SR_Flag', types.StringType(), True), \n",
+    "    types.StructField('Affiliated_base_number', types.StringType(), True)\n",
+    "])"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 22,
+   "id": "656a341b",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "df= spark.read \\\n",
+    "    .option(\"header\", \"true\") \\\n",
+    "    .schema(schema) \\\n",
+    "    .csv('fhv_tripdata_2019-10.csv')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 23,
+   "id": "4e8007f9",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "+--------------------+-------------------+-------------------+------------+------------+-------+----------------------+\n",
+      "|dispatching_base_num|    pickup_datetime|   dropOff_datetime|PUlocationID|DOlocationID|SR_Flag|Affiliated_base_number|\n",
+      "+--------------------+-------------------+-------------------+------------+------------+-------+----------------------+\n",
+      "|              B00009|2019-10-01 00:23:00|2019-10-01 00:35:00|         264|         264|   NULL|                B00009|\n",
+      "|              B00013|2019-10-01 00:11:29|2019-10-01 00:13:22|         264|         264|   NULL|                B00013|\n",
+      "|              B00014|2019-10-01 00:11:43|2019-10-01 00:37:20|         264|         264|   NULL|                B00014|\n",
+      "|              B00014|2019-10-01 00:56:29|2019-10-01 00:57:47|         264|         264|   NULL|                B00014|\n",
+      "|              B00014|2019-10-01 00:23:09|2019-10-01 00:28:27|         264|         264|   NULL|                B00014|\n",
+      "|     B00021         |2019-10-01 00:00:48|2019-10-01 00:07:12|         129|         129|   NULL|       B00021         |\n",
+      "|     B00021         |2019-10-01 00:47:23|2019-10-01 00:53:25|          57|          57|   NULL|       B00021         |\n",
+      "|     B00021         |2019-10-01 00:10:06|2019-10-01 00:19:50|         173|         173|   NULL|       B00021         |\n",
+      "|     B00021         |2019-10-01 00:51:37|2019-10-01 01:06:14|         226|         226|   NULL|       B00021         |\n",
+      "|     B00021         |2019-10-01 00:28:23|2019-10-01 00:34:33|          56|          56|   NULL|       B00021         |\n",
+      "|     B00021         |2019-10-01 00:31:17|2019-10-01 00:51:52|          82|          82|   NULL|       B00021         |\n",
+      "|              B00037|2019-10-01 00:07:41|2019-10-01 00:15:23|         264|          71|   NULL|                B00037|\n",
+      "|              B00037|2019-10-01 00:13:38|2019-10-01 00:25:51|         264|          39|   NULL|                B00037|\n",
+      "|              B00037|2019-10-01 00:42:40|2019-10-01 00:53:47|         264|         188|   NULL|                B00037|\n",
+      "|              B00037|2019-10-01 00:58:46|2019-10-01 01:10:11|         264|          91|   NULL|                B00037|\n",
+      "|              B00037|2019-10-01 00:09:49|2019-10-01 00:14:37|         264|          71|   NULL|                B00037|\n",
+      "|              B00037|2019-10-01 00:22:35|2019-10-01 00:36:53|         264|          35|   NULL|                B00037|\n",
+      "|              B00037|2019-10-01 00:54:27|2019-10-01 01:03:37|         264|          61|   NULL|                B00037|\n",
+      "|              B00037|2019-10-01 00:08:12|2019-10-01 00:28:47|         264|         198|   NULL|                B00037|\n",
+      "|              B00053|2019-10-01 00:05:24|2019-10-01 00:53:03|         264|         264|   NULL|                  #N/A|\n",
+      "+--------------------+-------------------+-------------------+------------+------------+-------+----------------------+\n",
+      "only showing top 20 rows\n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "df.show()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 24,
+   "id": "ef1cd1a2",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "[Row(dispatching_base_num='B00009', pickup_datetime=datetime.datetime(2019, 10, 1, 0, 23), dropOff_datetime=datetime.datetime(2019, 10, 1, 0, 35), PUlocationID=264, DOlocationID=264, SR_Flag=None, Affiliated_base_number='B00009'),\n",
+       " Row(dispatching_base_num='B00013', pickup_datetime=datetime.datetime(2019, 10, 1, 0, 11, 29), dropOff_datetime=datetime.datetime(2019, 10, 1, 0, 13, 22), PUlocationID=264, DOlocationID=264, SR_Flag=None, Affiliated_base_number='B00013'),\n",
+       " Row(dispatching_base_num='B00014', pickup_datetime=datetime.datetime(2019, 10, 1, 0, 11, 43), dropOff_datetime=datetime.datetime(2019, 10, 1, 0, 37, 20), PUlocationID=264, DOlocationID=264, SR_Flag=None, Affiliated_base_number='B00014'),\n",
+       " Row(dispatching_base_num='B00014', pickup_datetime=datetime.datetime(2019, 10, 1, 0, 56, 29), dropOff_datetime=datetime.datetime(2019, 10, 1, 0, 57, 47), PUlocationID=264, DOlocationID=264, SR_Flag=None, Affiliated_base_number='B00014'),\n",
+       " Row(dispatching_base_num='B00014', pickup_datetime=datetime.datetime(2019, 10, 1, 0, 23, 9), dropOff_datetime=datetime.datetime(2019, 10, 1, 0, 28, 27), PUlocationID=264, DOlocationID=264, SR_Flag=None, Affiliated_base_number='B00014')]"
+      ]
+     },
+     "execution_count": 24,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.head(5)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 25,
+   "id": "20492734",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "df= df.repartition(6)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 26,
+   "id": "b91e57c3",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "                                                                                \r"
+     ]
+    }
+   ],
+   "source": [
+    "df.write.parquet('fhv/2019/10/')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 27,
+   "id": "8c59b888",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "total 38M\r\n",
+      "-rw-r--r-- 1 marfanyan marfanyan    0 Feb 21 06:34 _SUCCESS\r\n",
+      "-rw-r--r-- 1 marfanyan marfanyan 6.3M Feb 21 06:34 part-00000-fdf93193-f17c-4175-a207-b86dbf0356c3-c000.snappy.parquet\r\n",
+      "-rw-r--r-- 1 marfanyan marfanyan 6.3M Feb 21 06:34 part-00001-fdf93193-f17c-4175-a207-b86dbf0356c3-c000.snappy.parquet\r\n",
+      "-rw-r--r-- 1 marfanyan marfanyan 6.3M Feb 21 06:34 part-00002-fdf93193-f17c-4175-a207-b86dbf0356c3-c000.snappy.parquet\r\n",
+      "-rw-r--r-- 1 marfanyan marfanyan 6.3M Feb 21 06:34 part-00003-fdf93193-f17c-4175-a207-b86dbf0356c3-c000.snappy.parquet\r\n",
+      "-rw-r--r-- 1 marfanyan marfanyan 6.3M Feb 21 06:34 part-00004-fdf93193-f17c-4175-a207-b86dbf0356c3-c000.snappy.parquet\r\n",
+      "-rw-r--r-- 1 marfanyan marfanyan 6.3M Feb 21 06:34 part-00005-fdf93193-f17c-4175-a207-b86dbf0356c3-c000.snappy.parquet\r\n"
+     ]
+    }
+   ],
+   "source": [
+    "! ls -lh fhv/2019/10/"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 58,
+   "id": "64468d0a",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "root\n",
+      " |-- dispatching_base_num: string (nullable = true)\n",
+      " |-- pickup_datetime: timestamp (nullable = true)\n",
+      " |-- dropOff_datetime: timestamp (nullable = true)\n",
+      " |-- PUlocationID: integer (nullable = true)\n",
+      " |-- DOlocationID: integer (nullable = true)\n",
+      " |-- SR_Flag: string (nullable = true)\n",
+      " |-- Affiliated_base_number: string (nullable = true)\n",
+      " |-- pickup_date: string (nullable = true)\n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "df.printSchema()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 28,
+   "id": "39bd8055",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "df = spark.read.parquet('fhv/2019/10/')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 60,
+   "id": "3bb46515",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "df = df.withColumn('pickup_date', date_format(\"pickup_datetime\", \"yyyy-MM-dd\")) "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 61,
+   "id": "48765d27",
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "+--------------------+-------------------+-------------------+------------+------------+-------+----------------------+-----------+\n",
+      "|dispatching_base_num|    pickup_datetime|   dropOff_datetime|PUlocationID|DOlocationID|SR_Flag|Affiliated_base_number|pickup_date|\n",
+      "+--------------------+-------------------+-------------------+------------+------------+-------+----------------------+-----------+\n",
+      "|              B02784|2019-10-01 09:55:38|2019-10-01 10:05:43|          89|          85|   NULL|                  NULL| 2019-10-01|\n",
+      "|              B01315|2019-10-05 15:13:04|2019-10-05 15:19:48|         264|          74|   NULL|                B01315| 2019-10-05|\n",
+      "|              B01984|2019-10-12 17:13:00|2019-10-12 17:40:00|         264|          75|   NULL|                B01984| 2019-10-12|\n",
+      "|              B00310|2019-10-15 10:55:04|2019-10-15 11:00:45|         264|         247|   NULL|                B03047| 2019-10-15|\n",
+      "|              B00932|2019-10-08 06:58:42|2019-10-08 07:11:11|         264|          37|   NULL|                B00932| 2019-10-08|\n",
+      "|              B01029|2019-10-10 14:45:00|2019-10-10 15:47:00|         264|         264|   NULL|                B01029| 2019-10-10|\n",
+      "|              B01087|2019-10-14 18:41:24|2019-10-14 19:02:06|         261|         186|   NULL|                B01087| 2019-10-14|\n",
+      "|              B03080|2019-10-05 14:49:10|2019-10-05 15:02:14|         264|          25|   NULL|                B02889| 2019-10-05|\n",
+      "|              B03160|2019-10-10 12:50:00|2019-10-10 13:34:00|          77|          77|   NULL|                B02882| 2019-10-10|\n",
+      "|              B02472|2019-10-16 14:12:36|2019-10-16 14:35:00|         264|         157|   NULL|                B02472| 2019-10-16|\n",
+      "|              B01051|2019-10-05 22:06:46|2019-10-05 22:16:57|         264|         182|   NULL|                B01051| 2019-10-05|\n",
+      "|              B02111|2019-10-08 14:58:52|2019-10-08 15:40:41|          98|          79|   NULL|                B02111| 2019-10-08|\n",
+      "|              B00254|2019-10-03 20:33:11|2019-10-03 21:52:16|         246|         265|   NULL|                B02356| 2019-10-03|\n",
+      "|              B00756|2019-10-16 10:58:00|2019-10-16 11:18:00|         264|         264|   NULL|                B00756| 2019-10-16|\n",
+      "|              B02249|2019-10-04 19:55:49|2019-10-04 20:08:25|         264|         192|   NULL|                B02249| 2019-10-04|\n",
+      "|              B03202|2019-10-13 07:39:33|2019-10-13 08:18:31|         264|         132|   NULL|                B03202| 2019-10-13|\n",
+      "|              B00419|2019-10-11 08:33:12|2019-10-11 08:46:22|         182|         185|   NULL|                B00419| 2019-10-11|\n",
+      "|              B02095|2019-10-09 11:16:00|2019-10-09 11:44:00|         264|         264|   NULL|                B02095| 2019-10-09|\n",
+      "|              B02930|2019-10-05 22:06:15|2019-10-05 22:25:31|         264|          69|   NULL|                B02930| 2019-10-05|\n",
+      "|              B01239|2019-10-07 20:08:15|2019-10-07 20:16:06|         264|          51|   NULL|                B02847| 2019-10-07|\n",
+      "+--------------------+-------------------+-------------------+------------+------------+-------+----------------------+-----------+\n",
+      "only showing top 20 rows\n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "df.show()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 141,
+   "id": "de47e365",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "62610"
+      ]
+     },
+     "execution_count": 141,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "filter_date = '2019-10-15'\n",
+    "\n",
+    "df.select(\n",
+    "    \"dispatching_base_num\",\n",
+    "    \"pickup_datetime\",\n",
+    "    to_date('pickup_datetime', \"yyyy-MM-dd\").alias(\"pickup_date\")\n",
+    ").filter(col(\"pickup_date\") == filter_date).count()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 142,
+   "id": "53ab39bd",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "\r",
+      "[Stage 119:>                                                        (0 + 2) / 2]\r"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "+--------------------+--------------------+\n",
+      "|dispatching_base_num|      duration_hours|\n",
+      "+--------------------+--------------------+\n",
+      "|              B02832|INTERVAL '631152 ...|\n",
+      "+--------------------+--------------------+\n",
+      "only showing top 1 row\n",
+      "\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "\r",
+      "                                                                                \r"
+     ]
+    }
+   ],
+   "source": [
+    "df_trip = (\n",
+    "    df.select(\n",
+    "        \"dispatching_base_num\",\n",
+    "        expr(\"(dropOff_datetime - pickup_datetime) * 24\").alias(\"duration_hours\"),\n",
+    "    )\n",
+    "    .sort(\"duration_hours\", ascending=False)\n",
+    "    .show(1)\n",
+    ")\n"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.11.5"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
