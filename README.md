@@ -20,15 +20,17 @@ Welcome to the Data Engineering Zoomcamp 2024 repository! Here, you can find the
 
 * [Homework](/workshops/homework_dlt.md)
 
-
 **Module 4: Analytics Engineering 🚀**
 
 * [Homework](week_4/homework.md)
 
-
 **Module 5: Batch Processing 🚀**
 
 * [Homework](week_5/homework.md)
+
+**Module 6: Stream Processing 🚀**
+
+* [Homework](week_6/homework.md)
 
 
 ### Course UI
