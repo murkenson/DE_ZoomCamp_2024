@@ -15,6 +15,9 @@ For this homework we will be using the FHV 2019-10 data found here. [FHV Data](h
 
 What's the output?
 
+> [!NOTE]
+> To install PySpark follow this [guide](https://github.com/DataTalksClub/data-engineering-zoomcamp/blob/main/05-batch/setup/pyspark.md)
+
 >Answer:
 ```
 3.5.0
@@ -50,6 +53,9 @@ Consider only trips that started on the 15th of October.</br>
 - 12,856
 - 452,470
 - 62,610
+
+> [!IMPORTANT]
+> Be aware of columns order when defining schema
 
 >Answer:
 ```
@@ -110,5 +116,5 @@ Jamaica Bay
 
 ## Submitting the solutions
 
-- Form for submitting: TBA
+- Form for submitting: https://courses.datatalks.club/de-zoomcamp-2024/homework/hw5
 - Deadline: See the course app

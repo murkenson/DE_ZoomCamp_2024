@@ -18,7 +18,7 @@ Welcome to the Data Engineering Zoomcamp 2024 repository! Here, you can find the
 
 **Workshop 1: Data Ingestion 🚀**
 
-* [Homework](/workshops/homework_dlt.md)
+* [Homework](/workshops/dltHub/homework_dlt.md)
 
 **Module 4: Analytics Engineering 🚀**
 
@@ -31,6 +31,9 @@ Welcome to the Data Engineering Zoomcamp 2024 repository! Here, you can find the
 **Module 6: Stream Processing 🚀**
 
 * [Homework](week_6/homework.md)
+
+**Workshop 2: Stream Processing with SQL 🚀**
+* [Homework](/workshops/rising-wave/homework.md)
 
 
 ### Course UI
