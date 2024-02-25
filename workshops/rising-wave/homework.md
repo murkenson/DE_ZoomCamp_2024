@@ -80,6 +80,10 @@ What is RisingWave meant to be used for?
 OLAP Workloads. 
 3. Stream Processing.
 
+>Answer:
+```
+```
+
 ### Question 2
 
 What is the interface which RisingWave supports? 
@@ -89,6 +93,10 @@ What is the interface which RisingWave supports?
 3. Rust SDK. 
 4. Python SDK.
 
+>Answer:
+```
+```
+
 ### Question 3
 
 What if I want to run a custom function which RisingWave does not
@@ -97,6 +105,10 @@ support?
 1. Sink the data out, run the function, and sink it back in. 
 2. Write a Python / Java / WASM / JS UDF. 
 
+>Answer:
+```
+```
+
 ### Question 4
 
 Is this statement True or False?
@@ -104,9 +116,11 @@ Is this statement True or False?
 on top of other materialized views. 
 
 1. True 
-
 2. False
 
+>Answer:
+```
+```
 ### Question 5
 
 How does RisingWave process ingested data? 
@@ -118,6 +132,10 @@ checkpoints.
 4. Incrementally, as new records are
 ingested.
 
+>Answer:
+```
+```
+
 ### Question 6
 
 Is the following Statement True or False: 
@@ -127,6 +145,10 @@ RisingWave is only for Stream Processing, it cannot serve any select requests fr
 1. True 
 2. False
 
+>Answer:
+```
+```
+
 ### Question 7
 
 Why can’t we use cross joins in RisingWave Materialized Views?
@@ -135,6 +157,10 @@ Why can’t we use cross joins in RisingWave Materialized Views?
 2. Because they are not supported by the Incremental View Maintenance algorithm.
 3. Because they are not supported by the PostgreSQL planner.
 4. Because they are too expensive, so it is banned in RisingWave’s stream engine.
+
+>Answer:
+```
+```
 
 ### Question 8
 
@@ -147,6 +173,10 @@ EXPLAIN ANALYZE statement.
 3. Checking the RisingWave logs. 
 4. It is not possible to view the progress of such statements.
 
+>Answer:
+```
+```
+
 ### Question 9
 
 How do I view the execution plan of my SQL query?
@@ -156,6 +186,10 @@ How do I view the execution plan of my SQL query?
 3. `DROP <query>` 
 4. `VIEW <query>`
 
+>Answer:
+```
+```
+
 ### Question 10
 
 Which is used to ingest data from external systems? 
@@ -163,6 +197,10 @@ Which is used to ingest data from external systems?
 1.`CREATE SOURCE <...>` 
 
 2.`CREATE SINK <...>`
+
+>Answer:
+```
+```
 
 ### Question 11
 
@@ -175,6 +213,10 @@ updated.
 3. To specify the time at which a record was deleted. 
 4. To specify the time at which a record is considered stale, and can be
 deleted.
+
+>Answer:
+```
+```
 
 ## Submitting the solutions
 
