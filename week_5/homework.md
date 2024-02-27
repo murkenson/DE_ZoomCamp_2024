@@ -23,6 +23,10 @@ What's the output?
 3.5.0
 ```
 
+> [!NOTE]
+>The solution can be viewed [here](/week_5/homework.ipynb)
+
+
 ### Question 2: 
 
 **FHV October 2019**
@@ -40,6 +44,10 @@ What is the average size of the Parquet (ending with .parquet extension) Files t
 ```
 6MB
 ```
+
+> [!NOTE]
+>The solution can be viewed [here](/week_5/homework.ipynb)
+
 
 
 ### Question 3: 
@@ -62,6 +70,10 @@ Consider only trips that started on the 15th of October.</br>
 62610
 ```
 
+> [!NOTE]
+>The solution can be viewed [here](/week_5/homework.ipynb)
+
+
 ### Question 4: 
 
 **Longest trip for each day** 
@@ -77,6 +89,9 @@ What is the length of the longest trip in the dataset in hours?</br>
 ```
 631,152.50 Hours
 ```
+> [!NOTE]
+>The solution can be viewed [here](/week_5/homework.ipynb)
+
 
 ### Question 5: 
 
@@ -93,6 +108,8 @@ Spark’s User Interface which shows the application's dashboard runs on which l
 ```
 4040
 ```
+
+![Pyspark](/week_5/static/pyspark.png)
 
 ### Question 6: 
 
@@ -112,6 +129,9 @@ Using the zone lookup data and the FHV October 2019 data, what is the name of th
 ```
 Jamaica Bay
 ```
+
+> [!NOTE]
+>The solution can be viewed [here](/week_5/homework.ipynb)
 
 
 ## Submitting the solutions
