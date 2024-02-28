@@ -30,7 +30,7 @@ You'll need to have completed the ["Build the first dbt models"](https://www.you
 
 >Answer:
 ```
-It applies a _limit 100_ to all of our models
+It applies a _limit 100_ only to our staging models
 ```
 
 ### Question 2: 
@@ -95,3 +95,7 @@ Yellow
 * You can submit your homework multiple times. In this case, only the last submission will be used. 
 
 Deadline: 22 February (Thursday), 22:00 CET
+
+## Solution (To be published after deadline)
+
+* Video: https://youtu.be/3OPggh5Rca8
