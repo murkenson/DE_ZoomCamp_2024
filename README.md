@@ -39,3 +39,11 @@ Putting everything we learned to practice
 Alternatively, you can access this course using the provided UI app, the app provides a user-friendly interface for navigating through the course material.
 
 Visit the following link: [DE Zoomcamp UI](https://dezoomcamp.streamlit.app/)
+
+# Instructors
+- [Ankush Khanna](https://linkedin.com/in/ankushkhanna2)
+- [Victoria Perez Mola](https://www.linkedin.com/in/victoriaperezmola/)
+- [Alexey Grigorev](https://linkedin.com/in/agrigorev)
+- [Matt Palmer](https://www.linkedin.com/in/matt-palmer/)
+- [Luis Oliveira](https://www.linkedin.com/in/lgsoliveira/)
+- [Michael Shoemaker](https://www.linkedin.com/in/michaelshoemaker1/)
