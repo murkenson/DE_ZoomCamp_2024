@@ -120,6 +120,10 @@ Options:
 3. East Flatbush/Farragut, East Harlem North
 4. Midtown Center, University Heights/Morris Heights
 
+>Answer:
+```
+```
+
 ### Question 2
 
 Recreate the MV(s) in question 1, to also find the number of trips for the pair of taxi zones with the highest average trip time.
@@ -129,6 +133,10 @@ Options:
 2. 3
 3. 10
 4. 1
+
+>Answer:
+```
+```
 
 ### Question 3
 
@@ -147,13 +155,23 @@ Options:
 3. Midtown Center, Upper East Side South, Upper East Side North
 4. LaGuardia Airport, Midtown Center, Upper East Side North
 
+>Answer:
+```
+```
 
 ## Submitting the solutions
 
-- Form for submitting: TBA
-- You can submit your homework multiple times. In this case, only the
-last submission will be used.
+- Form for submitting: https://courses.datatalks.club/de-zoomcamp-2024/homework/workshop2
+- Deadline: 11 March (Monday), 23:00 CET 
 
-Deadline: TBA
+## Rewards 🥳
 
-## Solution
+Everyone who completes the homework will get a pen and a sticker, and 5 lucky winners will receive a Tshirt and other secret surprises!
+We encourage you to share your achievements with this workshop on your socials and look forward to your submissions 😁
+
+- Follow us on **LinkedIn**: https://www.linkedin.com/company/risingwave
+- Follow us on **GitHub**: https://github.com/risingwavelabs/risingwave
+- Join us on **Slack**: https://risingwave-labs.com/slack
+
+See you around!
+
