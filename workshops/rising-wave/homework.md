@@ -122,6 +122,41 @@ Options:
 
 >Answer:
 ```
+Yorkville East, Steinway
+```
+
+>Full output of command:
+```
+dev=> CREATE MATERIALIZED VIEW avg_min_max_trip_data AS
+dev->
+dev-> with t as (
+dev(>     SELECT pickup_zone.zone as pickup_taxi_zone, dropoff_zone.zone as dropoff_taxi_zone, t.tpep_pickup_datetime, t.tpep_dropoff_datetime, t.tpep_dropoff_datetime-t.tpep_pickup_datetime as trip_time
+dev(>     FROM trip_data as t
+dev(>
+dev(>     inner join taxi_zone  as pickup_zone
+dev(>         ON t.pulocationid = pickup_zone.location_id
+dev(>     inner join taxi_zone as dropoff_zone
+dev(>         ON t.dolocationid = dropoff_zone.location_id
+dev(>         where t.pulocationid <> t.dolocationid
+dev(>
+dev(>
+dev(>         )
+dev->
+dev-> select    pickup_taxi_zone, dropoff_taxi_zone, min(trip_time) as min_trip_time, max(trip_time) as max_trip_time, avg(trip_time) as avg_trip_time
+dev->  from t
+dev->
+dev->         group by pickup_taxi_zone, dropoff_taxi_zone;
+CREATE_MATERIALIZED_VIEW
+
+
+
+dev=> WITH max_profit AS (SELECT max(avg_trip_time) max FROM avg_min_max_trip_data)
+SELECT pickup_taxi_zone, dropoff_taxi_zone, avg_trip_time, max FROM avg_min_max_trip_data, max_profit
+WHERE avg_trip_time >= max;
+ pickup_taxi_zone | dropoff_taxi_zone | avg_trip_time |   max
+------------------+-------------------+---------------+----------
+ Yorkville East   | Steinway          | 23:59:33      | 23:59:33
+(1 row)
 ```
 
 ### Question 2
@@ -136,6 +171,48 @@ Options:
 
 >Answer:
 ```
+1
+```
+
+>Full output of command:
+```
+dev=> drop materialized view avg_min_max_trip_data;
+DROP_MATERIALIZED_VIEW
+dev=> CREATE  MATERIALIZED VIEW avg_min_max_trip_data AS with t as (
+dev(>   SELECT
+dev(>     pickup_zone.zone as pickup_taxi_zone,
+dev(>     dropoff_zone.zone as dropoff_taxi_zone,
+dev(>     t.tpep_pickup_datetime,
+dev(>     t.tpep_dropoff_datetime,
+dev(>     t.tpep_dropoff_datetime - t.tpep_pickup_datetime as trip_time
+dev(>   FROM
+dev(>     trip_data as t
+dev(>     inner join taxi_zone as pickup_zone ON t.pulocationid = pickup_zone.location_id
+dev(>     inner join taxi_zone as dropoff_zone ON t.dolocationid = dropoff_zone.location_id
+dev(>   where
+dev(>     t.pulocationid <> t.dolocationid
+dev(> )
+dev-> select
+dev->   pickup_taxi_zone,
+dev->   dropoff_taxi_zone,
+dev->   min(trip_time) as min_trip_time,
+dev->   max(trip_time) as max_trip_time,
+dev->   avg(trip_time) as avg_trip_time,
+dev->   count(*) as cnt
+dev-> from
+dev->   t
+dev-> group by
+dev->   pickup_taxi_zone,
+dev->   dropoff_taxi_zone;
+CREATE_MATERIALIZED_VIEW
+
+dev=> WITH max_profit AS (SELECT max(avg_trip_time) max FROM avg_min_max_trip_data)
+dev-> SELECT * from avg_min_max_trip_data, max_profit
+dev-> WHERE avg_trip_time >= max;
+ pickup_taxi_zone | dropoff_taxi_zone | min_trip_time | max_trip_time | avg_trip_time | cnt |   max
+------------------+-------------------+---------------+---------------+---------------+-----+----------
+ Yorkville East   | Steinway          | 23:59:33      | 23:59:33      | 23:59:33      |   1 | 23:59:33
+(1 row)
 ```
 
 ### Question 3
@@ -157,6 +234,57 @@ Options:
 
 >Answer:
 ```
+LaGuardia Airport, Lincoln Square East, JFK Airport
+```
+
+>Full output of command:
+
+```
+dev=> WITH max_pickup as (
+dev(>   SELECT
+dev(>     MAX(tpep_pickup_datetime) as max_date
+dev(>   FROM
+dev(>     trip_data
+dev(> ),
+dev-> recent_pickups AS (
+dev(>   SELECT
+dev(>     trip_data.tpep_pickup_datetime,
+dev(>     trip_data.pulocationid
+dev(>   FROM
+dev(>     trip_data,
+dev(>     max_pickup
+dev(>   WHERE
+dev(>     tpep_pickup_datetime BETWEEN max_pickup.max_date - INTERVAL '17 hours'
+dev(>     AND max_pickup.max_date
+dev(> ),
+dev-> cnt_count_pickup as (
+dev(>   SELECT
+dev(>     pulocationid,
+dev(>     COUNT(*) AS pickup_count
+dev(>   FROM
+dev(>     recent_pickups
+dev(>   GROUP BY
+dev(>     pulocationid
+dev(>   ORDER BY
+dev(>     pickup_count DESC
+dev(>   limit
+dev(>     3
+dev(> )
+dev-> select
+dev->   pulocationid.zone,
+dev->   t.*
+dev-> from
+dev->   cnt_count_pickup as t
+dev->   left join taxi_zone as pulocationid ON t.pulocationid = pulocationid.location_id
+dev-> limit
+dev->   3
+dev-> ;
+        zone         | pulocationid | pickup_count
+---------------------+--------------+--------------
+ LaGuardia Airport   |          138 |           19
+ Lincoln Square East |          142 |           17
+ JFK Airport         |          132 |           17
+(3 rows)
 ```
 
 ## Submitting the solutions
