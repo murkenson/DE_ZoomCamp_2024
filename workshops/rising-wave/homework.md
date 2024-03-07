@@ -240,51 +240,38 @@ LaGuardia Airport, Lincoln Square East, JFK Airport
 >Full output of command:
 
 ```
-dev=> WITH max_pickup as (
-dev(>   SELECT
-dev(>     MAX(tpep_pickup_datetime) as max_date
-dev(>   FROM
-dev(>     trip_data
-dev(> ),
-dev-> recent_pickups AS (
-dev(>   SELECT
-dev(>     trip_data.tpep_pickup_datetime,
-dev(>     trip_data.pulocationid
-dev(>   FROM
-dev(>     trip_data,
-dev(>     max_pickup
-dev(>   WHERE
-dev(>     tpep_pickup_datetime BETWEEN max_pickup.max_date - INTERVAL '17 hours'
-dev(>     AND max_pickup.max_date
-dev(> ),
-dev-> cnt_count_pickup as (
-dev(>   SELECT
-dev(>     pulocationid,
-dev(>     COUNT(*) AS pickup_count
-dev(>   FROM
-dev(>     recent_pickups
-dev(>   GROUP BY
-dev(>     pulocationid
-dev(>   ORDER BY
-dev(>     pickup_count DESC
-dev(>   limit
-dev(>     3
-dev(> )
-dev-> select
-dev->   pulocationid.zone,
-dev->   t.*
-dev-> from
-dev->   cnt_count_pickup as t
-dev->   left join taxi_zone as pulocationid ON t.pulocationid = pulocationid.location_id
-dev-> limit
-dev->   3
-dev-> ;
-        zone         | pulocationid | pickup_count
----------------------+--------------+--------------
- LaGuardia Airport   |          138 |           19
- Lincoln Square East |          142 |           17
- JFK Airport         |          132 |           17
+dev=> CREATE MATERIALIZED VIEW latest_pickup_time AS
+SELECT tpep_pickup_datetime AS pickup_time
+FROM trip_data
+WHERE tpep_pickup_datetime=(SELECT MAX(tpep_pickup_datetime) FROM trip_data);
+CREATE_MATERIALIZED_VIEW
+dev=> SELECT
+dev->   taxi_zone.Zone AS pickup_zone,
+dev->   COUNT(*) AS num_rides
+dev-> FROM
+dev->   trip_data
+dev->   JOIN taxi_zone ON taxi_zone.location_id = trip_data.pulocationid
+dev-> WHERE
+dev->   trip_data.tpep_pickup_datetime >= (
+dev(>     SELECT
+dev(>       pickup_time - INTERVAL '17 HOURS'
+dev(>     FROM
+dev(>       latest_pickup_time
+dev(>   )
+dev-> GROUP BY
+dev->   pickup_zone
+dev-> ORDER BY
+dev->   num_rides DESC
+dev-> LIMIT
+dev->   3;
+
+     pickup_zone     | num_rides
+---------------------+-----------
+ LaGuardia Airport   |        19
+ Lincoln Square East |        17
+ JFK Airport         |        17
 (3 rows)
+
 ```
 
 ## Submitting the solutions
