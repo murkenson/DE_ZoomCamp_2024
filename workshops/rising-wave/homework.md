@@ -65,11 +65,17 @@ We’ll cover the following topics in this Workshop:
 RisingWave in 10 Minutes:
 https://tutorials.risingwave.com/docs/intro
 
-[Project Repository](https://github.com/risingwavelabs/risingwave-data-talks-workshop-2024-03-04)
+Workshop video:
+
+<a href="https://youtube.com/live/L2BHFnZ6XjE">
+  <img src="https://markdown-videos-api.jorgenkh.no/youtube/L2BHFnZ6XjE" />
+</a>
+
+[Project Repository](https://github.com/murkenson/risingwave-data-talks-workshop)
 
 ## Homework
 
-**Please setup the environment in [Getting Started](https://github.com/risingwavelabs/risingwave-data-talks-workshop-2024-03-04?tab=readme-ov-file#getting-started) and for the [Homework](https://github.com/risingwavelabs/risingwave-data-talks-workshop-2024-03-04/blob/main/homework.md#setting-up) first.**
+**Please setup the environment in [Getting Started](https://github.com/murkenson/risingwave-data-talks-workshop?tab=readme-ov-file#getting-started) and for the [Homework](https://github.com/murkenson/risingwave-data-talks-workshopblob/main/homework.md#setting-up) first.**
 
 
 ## Question 0
