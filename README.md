@@ -16,7 +16,7 @@ Welcome to the Data Engineering Zoomcamp 2024 repository! Here, you can find the
 | Module 4: Analytics Engineering 🚀 | - Basics of analytics engineering <br> - dbt (data build tool) <br> - BigQuery and dbt <br> - Postgres and dbt <br> - dbt models <br> - Testing and documenting <br> - Deployment to the cloud and locally <br> - Visualizing the data with Google Data Studio and Metabase | [Homework](week_4/homework.md) |
 | Module 5: Batch Processing 🚀 | - Batch processing <br> - What is Spark <br> - Spark Dataframes <br> - Spark SQL <br> - Internals: GroupBy and joins | [Homework](week_5/homework.md) |
 | Module 6: Stream Processing 🚀 | - Introduction to Kafka <br> - Schemas (Avro) <br> - Kafka Streams <br> - Kafka Connect and KSQL | [Homework](week_6/homework.md) |
-| Workshop 2: Stream Processing with SQL 🚀 | - | [Homework](/workshops/rising-wave/homework.md) |
+| Workshop 2: Stream Processing with SQL 🚀 | - Stream processing <br> - Data storage <br> - Random querying, especially point queries <br> | [Homework](/workshops/rising-wave/homework.md) |
 
 
 **Project**
