@@ -27,6 +27,13 @@ Putting everything we learned to practice
 * Week 3: reviewing your peers
 
 
+## Tools
+For this course, you'll need to have the following software installed on your computer:
+
+- Docker and Docker-Compose
+- Python 3 (e.g. via Anaconda)
+- Google Cloud SDK
+- Terraform
 
 ## Overview
 
