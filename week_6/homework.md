@@ -41,6 +41,12 @@ Find out what you need to execute based on the `help` output.
 
 What's the version, based on the output of the command you executed? (copy the entire version)
 
+>Answer
+```bash
+(base) marfanyan@de-zoomcamp:~/redpanda$ docker exec -it redpanda-1 rpk version
+v22.3.5 (rev 28b2443)
+```
+
 
 ## Question 2. Creating a topic
 
@@ -53,6 +59,13 @@ Read the output of `help` and based on it, create a topic with name `test-topic`
 
 What's the output of the command for creating a topic?
 
+
+>Answer
+```bash
+(base) marfanyan@de-zoomcamp:~/redpanda$ docker exec -it redpanda-1 rpk topic create test-topic
+TOPIC       STATUS
+test-topic  OK
+```
 
 ## Question 3. Connecting to the Kafka server
 
@@ -93,6 +106,10 @@ producer.bootstrap_connected()
 Provided that you can connect to the server, what's the output
 of the last command?
 
+>Answer
+```
+nothing
+```
 
 ## Question 4. Sending data to the stream
 
@@ -122,6 +139,21 @@ How much time did it take? Where did it spend most of the time?
 * Both took approximately the same amount of time
 
 (Don't remove `time.sleep` when answering this question)
+
+>Answer
+```bash
+Sent: {'number': 0}
+Sent: {'number': 1}
+Sent: {'number': 2}
+Sent: {'number': 3}
+Sent: {'number': 4}
+Sent: {'number': 5}
+Sent: {'number': 6}
+Sent: {'number': 7}
+Sent: {'number': 8}
+Sent: {'number': 9}
+took 0.51 seconds
+```
 
 
 ## Reading data with `rpk`
