@@ -204,6 +204,11 @@ to `iterrows`
 * How much time in seconds did it take? (You can round it to a whole number)
 * Make sure you don't include sleeps in your code
 
+>Answer
+```bash
+(base) marfanyan@de-zoomcamp:~/redpanda$ python -m producer
+Sending these messages took 55.91 seconds
+```
 
 ## Creating the PySpark consumer
 
