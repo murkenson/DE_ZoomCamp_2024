@@ -108,7 +108,7 @@ of the last command?
 
 >Answer
 ```
-nothing
+True
 ```
 
 ## Question 4. Sending data to the stream
@@ -142,6 +142,11 @@ How much time did it take? Where did it spend most of the time?
 
 >Answer
 ```bash
+0.51 
+```
+
+>Full output
+```bash
 Sent: {'number': 0}
 Sent: {'number': 1}
 Sent: {'number': 2}
@@ -154,7 +159,6 @@ Sent: {'number': 8}
 Sent: {'number': 9}
 took 0.51 seconds
 ```
-
 
 ## Reading data with `rpk`
 
@@ -207,7 +211,7 @@ to `iterrows`
 >Answer
 ```bash
 (base) marfanyan@de-zoomcamp:~/redpanda$ python -m producer
-Sending these messages took 55.91 seconds
+It took 54.73 seconds to send these messages.
 ```
 
 ## Creating the PySpark consumer
@@ -341,6 +345,11 @@ query.awaitTermination()
 ```
 
 Write the most popular destanation. (You will need to re-send the data for this to work)
+
+>Answer
+```
+DOLocationID = 74
+```
 
 
 ## Submitting the solutions
