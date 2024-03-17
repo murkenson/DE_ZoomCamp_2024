@@ -62,6 +62,12 @@ What's the output of the command for creating a topic?
 
 >Answer
 ```bash
+TOPIC       STATUS
+test-topic  OK
+```
+
+>Full output
+```
 (base) marfanyan@de-zoomcamp:~/redpanda$ docker exec -it redpanda-1 rpk topic create test-topic
 TOPIC       STATUS
 test-topic  OK
@@ -210,6 +216,11 @@ to `iterrows`
 
 >Answer
 ```bash
+54.73
+```
+
+>Full output
+```
 (base) marfanyan@de-zoomcamp:~/redpanda$ python -m producer
 It took 54.73 seconds to send these messages.
 ```
@@ -354,7 +365,7 @@ DOLocationID = 74
 
 ## Submitting the solutions
 
-* Form for submitting: TBA
+* Form for submitting: https://courses.datatalks.club/de-zoomcamp-2024/homework/hw6
 
 
 ## Solution
