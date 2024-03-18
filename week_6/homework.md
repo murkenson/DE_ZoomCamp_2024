@@ -148,7 +148,7 @@ How much time did it take? Where did it spend most of the time?
 
 >Answer
 ```bash
-0.51 
+0.54
 ```
 
 >Full output
@@ -163,7 +163,7 @@ Sent: {'number': 6}
 Sent: {'number': 7}
 Sent: {'number': 8}
 Sent: {'number': 9}
-took 0.51 seconds
+took 0.54 seconds
 ```
 
 ## Reading data with `rpk`
@@ -323,6 +323,19 @@ green_stream = green_stream \
 ```
 
 How does the record look after parsing? Copy the output 
+
+
+>Answer
+```
+root
+ |-- lpep_pickup_datetime: string (nullable = true)
+ |-- lpep_dropoff_datetime: string (nullable = true)
+ |-- PULocationID: integer (nullable = true)
+ |-- DOLocationID: integer (nullable = true)
+ |-- passenger_count: double (nullable = true)
+ |-- trip_distance: double (nullable = true)
+ |-- tip_amount: double (nullable = true)
+ ```
 
 
 ### Question 7: Most popular destination
