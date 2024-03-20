@@ -26,6 +26,8 @@ Putting everything we learned to practice
 * Week 1 and 2: working on your project
 * Week 3: reviewing your peers
 
+Check it out [here](https://github.com/murkenson/movies-tv-shows-data-pipeline)
+
 
 ## Tools
 For this course, you'll need to have the following software installed on your computer:

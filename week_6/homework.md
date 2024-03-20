@@ -216,13 +216,13 @@ to `iterrows`
 
 >Answer
 ```bash
-54.73
+91
 ```
 
 >Full output
 ```
 (base) marfanyan@de-zoomcamp:~/redpanda$ python -m producer
-It took 54.73 seconds to send these messages.
+It took 91 seconds to send these messages.
 ```
 
 ## Creating the PySpark consumer
