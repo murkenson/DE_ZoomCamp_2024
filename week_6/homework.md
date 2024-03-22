@@ -327,14 +327,7 @@ How does the record look after parsing? Copy the output
 
 >Answer
 ```
-root
- |-- lpep_pickup_datetime: string (nullable = true)
- |-- lpep_dropoff_datetime: string (nullable = true)
- |-- PULocationID: integer (nullable = true)
- |-- DOLocationID: integer (nullable = true)
- |-- passenger_count: double (nullable = true)
- |-- trip_distance: double (nullable = true)
- |-- tip_amount: double (nullable = true)
+DataFrame[lpep_pickup_datetime: string, lpep_dropoff_datetime: string, PULocationID: int, DOLocationID: int, passenger_count: double, trip_distance: double, tip_amount: double]
  ```
 
 
