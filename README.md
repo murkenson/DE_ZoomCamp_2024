@@ -17,16 +17,8 @@ Welcome to the Data Engineering Zoomcamp 2024 repository! Here, you can find the
 | Module 5: Batch Processing 🚀 | - Batch processing <br> - What is Spark <br> - Spark Dataframes <br> - Spark SQL <br> - Internals: GroupBy and joins | [Homework](week_5/homework.md) |
 | Module 6: Stream Processing 🚀 | - Introduction to Kafka <br> - Schemas (Avro) <br> - Kafka Streams <br> - Kafka Connect and KSQL | [Homework](week_6/homework.md) |
 | Workshop 2: Stream Processing with SQL 🚀 | - Stream processing <br> - Data storage <br> - Random querying, especially point queries <br> | [Homework](/workshops/rising-wave/homework.md) |
+| Final Project 🚀 | - Kaggle dataset <br> - Workflow orchestration <br> - BigQuery and dbt | [Movies and TV shows](https://github.com/murkenson/movies-tv-shows-data-pipeline) |
 
-
-**Project**
-
-Putting everything we learned to practice
-
-* Week 1 and 2: working on your project
-* Week 3: reviewing your peers
-
-Check it out [here](https://github.com/murkenson/movies-tv-shows-data-pipeline)
 
 
 ## Tools
